@@ -1,8 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
-require('dotenv').config();
 
+const PORT = process.env.APP_PORT || 3333;
 
-app.listen(process.env.APP_PORT, () => {
-  console.log(`Api running on port: ${process.env.APP_PORT}`);
+const { listUserHandler } = require('./handlers/User/listUsers');
+const { createUserHandler } = require('./handlers/User/createUser');
+
+app.use(express.json());
+
+app.get('/user', listUserHandler);
+app.post('/user', createUserHandler);
+
+app.listen(PORT, () => {
+  console.log(`Api running on port: ${PORT}`);
 });
